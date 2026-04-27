@@ -1,6 +1,6 @@
 {
   "name": "@sorrell/functional",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Functional programming utilities for TypeScript.",
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
