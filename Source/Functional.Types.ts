@@ -20,9 +20,6 @@ export type TFunction<
     ReturnType = void
 > =
     (...ArgumentVector: ArgumentVectorType) => ReturnType;
-    // [ ArgumentVectorType ] extends [ never ]
-    //     ? () => ReturnType
-    //     : (...ArgumentVector: ArgumentVectorType) => ReturnType;
 
 /** Any function, which may accept arguments, and may return something. */
 export type FFunctionAny = TFunction<Array<any>, any>;

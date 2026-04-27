@@ -51,9 +51,7 @@ export type TCurriedFunction<
     WithCurryType extends Array<unknown>,
     ThisReturnType
 > = 
-    TCurriedArgumentVector<ArgumentVectorType, WithCurryType> extends Array<unknown>
-        ? TFunction<
-            TCurriedArgumentVector<ArgumentVectorType, WithCurryType>,
-            ThisReturnType
-        >
-        : TFunction<never, ThisReturnType>;
+    TFunction<
+        TCurriedArgumentVector<ArgumentVectorType, WithCurryType>,
+        ThisReturnType
+    >;
