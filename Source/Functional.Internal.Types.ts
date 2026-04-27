@@ -5,4 +5,11 @@
  * @license   MIT
  */
 
-import type { FCurriedArgument } from "./Curry.Types.js";
+/**
+ * A `ReadonlyArray` of a given {@link ElementType} that is
+ * nonempty.
+ * 
+ * @template ElementType - The type of the elements in this `ReadonlyArray`.
+ */
+export type TReadonlyArrayNonempty<ElementType> = 
+    readonly [ ElementType, ...Array<ElementType> ];
