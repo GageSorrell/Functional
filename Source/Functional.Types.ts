@@ -18,12 +18,14 @@ import type { TReadonlyArrayNonempty } from "./Functional.Internal.Types.js";
  * @template ReturnType - The type returned by this.
  */
 export type TFunction<
-    ArgumentVectorType extends TReadonlyArrayNonempty<unknown> = never,
+    ArgumentVectorType extends Array<unknown> | ReadonlyArray<unknown> = never,
     ReturnType = void
 > =
     [ ArgumentVectorType ] extends [ never ]
         ? () => ReturnType
-        : (...ArgumentVector: ArgumentVectorType) => ReturnType;
+        : ArgumentVectorType extends ReadonlyArray<infer ElementType>
+            ? (...ArgumentVector: Array<ElementType>) => ReturnType
+            : (...ArgumentVector: ArgumentVectorType) => ReturnType;
 
 /** Any function, which may accept arguments, and may return something. */
 export type FFunctionAny = TFunction<TReadonlyArrayNonempty<any>, any>;
