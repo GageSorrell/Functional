@@ -7,6 +7,7 @@
 
 import type { CurriedArgument } from "./Curry.Internal.js";
 import type { TCurriedRecurrence, TWithCurryRecurrence } from "./Curry.Internal.Types.js";
+import type { TReadonlyArrayNonempty } from "./Functional.Internal.Types.js";
 import type { TFunction } from "./Functional.Types.js";
 
 /**
@@ -52,7 +53,9 @@ export type TCurriedFunction<
     WithCurryType extends ReadonlyArray<unknown>,
     ThisReturnType
 > = 
-    TFunction<
-        TCurriedArgumentVector<ArgumentVectorType, WithCurryType>,
-        ThisReturnType
-    >;
+    TCurriedArgumentVector<ArgumentVectorType, WithCurryType> extends TReadonlyArrayNonempty<unknown>
+        ? TFunction<
+            TCurriedArgumentVector<ArgumentVectorType, WithCurryType>,
+            ThisReturnType
+        >
+        : TFunction<never, ThisReturnType>;

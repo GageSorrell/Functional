@@ -7,6 +7,7 @@
 
 import { CurriedArgument } from "./Curry.Internal.js";
 import type { FCurriedArgument, TArgumentVectorWithCurry, TCurriedArgumentVector, TCurriedFunction } from "./Curry.Types.js";
+import type { TReadonlyArrayNonempty } from "./Functional.Internal.Types.js";
 import type { TFunction } from "./Functional.Types.js";
 
 /**
@@ -48,7 +49,7 @@ export const _: FCurriedArgument = CurriedArgument;
  * ```
  */
 export function Curry<
-    ArgumentVectorType extends ReadonlyArray<unknown>,
+    ArgumentVectorType extends TReadonlyArrayNonempty<unknown>,
     CurriedVectorType extends TArgumentVectorWithCurry<ArgumentVectorType>,
     ThisReturnType
 >(
