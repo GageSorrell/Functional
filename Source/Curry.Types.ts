@@ -36,7 +36,12 @@ export type TArgumentVectorWithCurry<ArgumentVectorType extends Array<unknown>> 
 export type TCurriedArgumentVector<
     ArgumentVectorType extends Array<unknown>,
     WithCurryType extends Array<unknown>
-> = TCurriedRecurrence<ArgumentVectorType, WithCurryType>;
+> = 
+    ArgumentVectorType["length"] extends number
+        ? TCurriedRecurrence<ArgumentVectorType, WithCurryType>["length"] extends 0
+            ? ArgumentVectorType
+            : TCurriedRecurrence<ArgumentVectorType, WithCurryType>
+        : TCurriedRecurrence<ArgumentVectorType, WithCurryType>;
 
 /**
  * A curried function, for a base function with a given {@link ArgumentVectorType} and return type
