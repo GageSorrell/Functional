@@ -7,8 +7,6 @@
 
 import { CurriedArgument } from "./Curry.Internal.js";
 import type { FCurriedArgument, TArgumentVectorWithCurry, TCurriedArgumentVector, TCurriedFunction } from "./Curry.Types.js";
-import type { TReadonlyArrayNonempty } from "./Functional.Internal.Types.js";
-import type { TFunction } from "./Functional.Types.js";
 
 /**
  * Denotes in the `CurriedArgumentVector` of a call to {@link Curry} an argument in the argument vector
@@ -49,12 +47,12 @@ export const _: FCurriedArgument = CurriedArgument;
  * ```
  */
 export function Curry<
-    ArgumentVectorType extends TReadonlyArrayNonempty<unknown>,
+    ArgumentVectorType extends Array<unknown>,
     CurriedVectorType extends TArgumentVectorWithCurry<ArgumentVectorType>,
     ThisReturnType
 >(
-    Function: TFunction<ArgumentVectorType, ThisReturnType>,
-    ...CurriedArgumentVector: CurriedVectorType
+    Function: (...ArgumentVector: ArgumentVectorType) => ThisReturnType,
+    ...CurriedArgumentVector: TArgumentVectorWithCurry<Parameters<typeof Function>>
 ): TCurriedFunction<Parameters<typeof Function>, typeof CurriedArgumentVector, ReturnType<typeof Function>>
 {
     function ConstructFilledArgumentVector(...ArgumentVector: TCurriedArgumentVector<Parameters<typeof Function>, typeof CurriedArgumentVector>): Parameters<typeof Function>
@@ -75,8 +73,9 @@ export function Curry<
         }) as unknown as Parameters<typeof Function>;
     }
 
+                                       // ): TCurriedFunction<Parameters<typeof Function>, typeof CurriedArgumentVector, ReturnType<typeof Function>>
     return function(...ArgumentVector: TCurriedArgumentVector<Parameters<typeof Function>, typeof CurriedArgumentVector>): ReturnType<typeof Function>
     {
         return Function(...ConstructFilledArgumentVector(...ArgumentVector) as any) as ReturnType<typeof Function>;
-    };
+    } as TCurriedFunction<Parameters<typeof Function>, typeof CurriedArgumentVector, ReturnType<typeof Function>>;
 }

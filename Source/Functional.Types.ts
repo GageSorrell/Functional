@@ -5,8 +5,6 @@
  * @license   MIT
  */
 
-import type { TReadonlyArrayNonempty } from "./Functional.Internal.Types.js";
-
 /**
  * A function type with defaults that make defining callback types convenient.
  *
@@ -18,14 +16,12 @@ import type { TReadonlyArrayNonempty } from "./Functional.Internal.Types.js";
  * @template ReturnType - The type returned by this.
  */
 export type TFunction<
-    ArgumentVectorType extends Array<unknown> | ReadonlyArray<unknown> = never,
+    ArgumentVectorType extends Array<unknown> = never,
     ReturnType = void
 > =
     [ ArgumentVectorType ] extends [ never ]
         ? () => ReturnType
-        : ArgumentVectorType extends ReadonlyArray<infer ElementType>
-            ? (...ArgumentVector: Array<ElementType>) => ReturnType
-            : (...ArgumentVector: ArgumentVectorType) => ReturnType;
+        : (...ArgumentVector: ArgumentVectorType) => ReturnType;
 
 /** Any function, which may accept arguments, and may return something. */
-export type FFunctionAny = TFunction<TReadonlyArrayNonempty<any>, any>;
+export type FFunctionAny = TFunction<Array<any>, any>;

@@ -8,7 +8,7 @@
 import type { FCurriedArgument } from "./Curry.Types.js";
 
 export type ReplaceAtIndex<
-    TupleType extends ReadonlyArray<unknown>,
+    TupleType extends Array<unknown>,
     TargetIndexType extends keyof TupleType
 > = {
     [ Index in keyof TupleType ]: Index extends TargetIndexType
@@ -23,15 +23,15 @@ type IsEqual<Left, Right> =
         : false;
 
 export type TCurriedArgumentVectorSourceRecursive<
-    ArgumentVectorType extends ReadonlyArray<unknown>,
-    CurriedType extends ReadonlyArray<unknown>,
-    SourceVectorType extends ReadonlyArray<unknown> = [ ]
+    ArgumentVectorType extends Array<unknown>,
+    CurriedType extends Array<unknown>,
+    SourceVectorType extends Array<unknown> = [ ]
 > =
-    ArgumentVectorType extends readonly [
+    ArgumentVectorType extends [
         infer ArgumentType,
         ...infer RemainingArgumentVectorType
     ]
-        ? CurriedType extends readonly [
+        ? CurriedType extends  [
             infer CurriedArgumentType,
             ...infer RemainingCurriedType
         ]
@@ -50,22 +50,22 @@ export type TCurriedArgumentVectorSourceRecursive<
         : SourceVectorType;
 
 export type TWithCurryRecurrence<
-    ArgumentVectorType extends ReadonlyArray<unknown>,
+    ArgumentVectorType extends Array<unknown>,
     HasPipedArgument extends boolean = false,
     HasOriginalArgument extends boolean = false
 > =
-    ArgumentVectorType extends readonly [
+    ArgumentVectorType extends [
         infer ArgumentType,
         ...infer RemainingArgumentVectorType
     ]
-        ? readonly [
+        ? [
             FCurriedArgument,
             ...TWithCurryRecurrence<
                 RemainingArgumentVectorType,
                 true,
                 HasOriginalArgument
             >
-        ] | readonly [
+        ] | [
             ArgumentType,
             ...TWithCurryRecurrence<
                 RemainingArgumentVectorType,
@@ -75,25 +75,25 @@ export type TWithCurryRecurrence<
         ]
         : HasPipedArgument extends true
             ? HasOriginalArgument extends true
-                ? readonly [ ]
+                ? [ ]
                 : never
             : never;
 
 export type TCurriedRecurrence<
-    ArgumentVectorType extends ReadonlyArray<unknown>,
-    CurriedType extends ReadonlyArray<unknown>,
-    __Accumulator extends ReadonlyArray<unknown> = readonly [ ]
+    ArgumentVectorType extends Array<unknown>,
+    CurriedType extends Array<unknown>,
+    __Accumulator extends Array<unknown> = [ ]
 > =
-    ArgumentVectorType extends readonly [ infer HeadType, ...infer TailType ]
-        ? CurriedType extends readonly [ infer CurriedHeadType, ...infer CurriedTailType ]
+    [ ...ArgumentVectorType extends [ infer HeadType, ...infer TailType ]
+        ? CurriedType extends [ infer CurriedHeadType, ...infer CurriedTailType ]
             ? CurriedHeadType extends FCurriedArgument
-                ? TCurriedRecurrence<TailType, CurriedTailType, readonly [ ...__Accumulator, HeadType ]>
+                ? TCurriedRecurrence<TailType, CurriedTailType, [ ...__Accumulator, HeadType ]>
                 : TCurriedRecurrence<TailType, CurriedTailType, __Accumulator>
             : never
-        : ArgumentVectorType extends readonly [ infer HeadType ]
-            ? CurriedType extends readonly [ infer CurriedHeadType ]
+        : ArgumentVectorType extends [ infer HeadType ]
+            ? CurriedType extends [ infer CurriedHeadType ]
                 ? CurriedHeadType extends FCurriedArgument
-                    ? readonly [ ...__Accumulator, HeadType ]
+                    ? [ ...__Accumulator, HeadType ]
                     : __Accumulator
                 : __Accumulator
-            : __Accumulator;
+            : __Accumulator ];

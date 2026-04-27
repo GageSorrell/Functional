@@ -7,7 +7,6 @@
 
 import type { CurriedArgument } from "./Curry.Internal.js";
 import type { TCurriedRecurrence, TWithCurryRecurrence } from "./Curry.Internal.Types.js";
-import type { TReadonlyArrayNonempty } from "./Functional.Internal.Types.js";
 import type { TFunction } from "./Functional.Types.js";
 
 /**
@@ -16,15 +15,14 @@ import type { TFunction } from "./Functional.Types.js";
  */
 export type FCurriedArgument = typeof CurriedArgument;
 
-type ReadonlyArrayFrom<ArrayType extends Array<unknown> | ReadonlyArray<unknown>> =
-    readonly [ ...ArrayType ];
-
 /**
  * The argument vector that defines fixed arguments, and which arguments of a given
  * {@link ArgumentVectorType} should be remain open (denoted by {@link _}).
  */
-export type TArgumentVectorWithCurry<ArgumentVectorType extends ReadonlyArray<unknown>> =
-    ReadonlyArrayFrom<TWithCurryRecurrence<ArgumentVectorType>>;
+export type TArgumentVectorWithCurry<ArgumentVectorType extends Array<unknown>> =
+    ArgumentVectorType extends Array<infer ElementType>
+        ? Array<ElementType | FCurriedArgument>
+        : never;
 
 /**
  * The argument vector for a curried {@link TFunction} of {@link ArgumentVectorType},
@@ -36,8 +34,8 @@ export type TArgumentVectorWithCurry<ArgumentVectorType extends ReadonlyArray<un
  * in the resulting curried function.
  */
 export type TCurriedArgumentVector<
-    ArgumentVectorType extends ReadonlyArray<unknown>,
-    WithCurryType extends ReadonlyArray<unknown>
+    ArgumentVectorType extends Array<unknown>,
+    WithCurryType extends Array<unknown>
 > = TCurriedRecurrence<ArgumentVectorType, WithCurryType>;
 
 /**
@@ -49,11 +47,11 @@ export type TCurriedArgumentVector<
  * @template ThisReturnType - The base type of the return type of the given {@link Function}.
  */
 export type TCurriedFunction<
-    ArgumentVectorType extends ReadonlyArray<unknown>,
-    WithCurryType extends ReadonlyArray<unknown>,
+    ArgumentVectorType extends Array<unknown>,
+    WithCurryType extends Array<unknown>,
     ThisReturnType
 > = 
-    TCurriedArgumentVector<ArgumentVectorType, WithCurryType> extends TReadonlyArrayNonempty<unknown>
+    TCurriedArgumentVector<ArgumentVectorType, WithCurryType> extends Array<unknown>
         ? TFunction<
             TCurriedArgumentVector<ArgumentVectorType, WithCurryType>,
             ThisReturnType
