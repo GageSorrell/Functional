@@ -73,7 +73,6 @@ export function Curry<
         }) as unknown as Parameters<typeof Function>;
     }
 
-                                       // ): TCurriedFunction<Parameters<typeof Function>, typeof CurriedArgumentVector, ReturnType<typeof Function>>
     return function(...ArgumentVector: TCurriedArgumentVector<Parameters<typeof Function>, typeof CurriedArgumentVector>): ReturnType<typeof Function>
     {
         return Function(...ConstructFilledArgumentVector(...ArgumentVector) as any) as ReturnType<typeof Function>;

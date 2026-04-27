@@ -16,12 +16,13 @@
  * @template ReturnType - The type returned by this.
  */
 export type TFunction<
-    ArgumentVectorType extends Array<unknown> = never,
+    ArgumentVectorType extends Array<unknown>,
     ReturnType = void
 > =
-    [ ArgumentVectorType ] extends [ never ]
-        ? () => ReturnType
-        : (...ArgumentVector: ArgumentVectorType) => ReturnType;
+    (...ArgumentVector: ArgumentVectorType) => ReturnType;
+    // [ ArgumentVectorType ] extends [ never ]
+    //     ? () => ReturnType
+    //     : (...ArgumentVector: ArgumentVectorType) => ReturnType;
 
 /** Any function, which may accept arguments, and may return something. */
 export type FFunctionAny = TFunction<Array<any>, any>;
