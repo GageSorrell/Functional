@@ -12,4 +12,5 @@
  * @template ElementType - The type of the elements in this `ReadonlyArray`.
  */
 export type TReadonlyArrayNonempty<ElementType> = 
-    readonly [ ElementType, ...Array<ElementType> ];
+    readonly [ ElementType ]
+    | readonly [ ElementType, ...Array<ElementType> ];
