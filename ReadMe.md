@@ -39,3 +39,7 @@ npm install @sorrell/functional
 | [`@sorrell/utilities`](https://github.com/GageSorrell/SorrellWm/tree/Master/Package/Utilities) | General-purpose utilities. |
 | [`@sorrell/cli-utilities`](https://github.com/GageSorrell/SorrellWm/tree/Master/Package/CliUtilities) | Utilities for CLI applications. |
 | [`@sorrell/cli`](https://github.com/GageSorrell/SorrellWm/tree/Master/Package/Cli) | CLI to assist with TypeScript development. |
+
+------
+
+*This repository is a read-only mirror.  Development takes place in the [`SorrellWm` monorepo](https://github.com/GageSorrell/SorrellWm).*
